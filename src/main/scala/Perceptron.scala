@@ -44,9 +44,10 @@ object Perceptron {
         val (ws, doUpdate) = weights_new
         val teach_add = teach.input ++ Seq(-1.0)
         val output = activation(teach_add, ws)
+
         ws.zipWithIndex.foldLeft(weights_new) { (weights, w_i) => {
-          val updateW = hebbianRule(w_i._1, teach_add(w_i._2), teach.tf, output)
-          weights._1.updated(w_i._2, updateW._1) -> (updateW._2 && weights._2)
+          val (updateW, isUpdate) = hebbianRule(w_i._1, teach_add(w_i._2), teach.tf, output)
+          weights._1.updated(w_i._2, updateW) -> (isUpdate && weights._2)
         }}
       }
       )
